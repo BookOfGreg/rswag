@@ -22,7 +22,7 @@ module Rswag
           }
         end
 
-        context 'given a path that maps to an existing swagger file' do
+        context 'given a path that maps to an existing swagger JSON file' do
           let(:env) { env_defaults.merge('PATH_INFO' => 'v1/swagger.json') }
 
           it 'returns a 200 status' do
@@ -34,6 +34,21 @@ module Rswag
             expect(response.length).to eql(3)
             expect(response[1]).to include( 'Content-Type' => 'application/json')
             expect(response[2].join).to include('"title":"API V1"')
+          end
+        end
+
+        context 'given a path that maps to an existing swagger YAML file' do
+          let(:env) { env_defaults.merge('PATH_INFO' => 'v1/swagger.yaml') }
+
+          it 'returns a 200 status' do
+            expect(response.length).to eql(5)
+            expect(response.first).to eql('200')
+          end
+
+          it 'returns contents of the swagger file' do
+            expect(response.length).to eql(5)
+            expect(response[1]).to include( 'Content-Type' => 'application/x-yaml')
+            expect(response[2].join).to include('  title: API V1')
           end
         end
 
