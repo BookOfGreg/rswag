@@ -2,7 +2,7 @@ require 'json'
 
 module Rswag
   module Api
-    class Middleware 
+    class Middleware
 
       def initialize(app, config)
         @app = app
@@ -23,7 +23,7 @@ module Rswag
             [ JSON.dump(swagger) ]
           ]
         end
-          
+
         return @app.call(env)
       end
 
