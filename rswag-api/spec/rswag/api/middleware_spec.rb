@@ -1,5 +1,6 @@
 require 'rswag/api/middleware'
 require 'rswag/api/configuration'
+require 'rack/mock_request'
 
 module Rswag
   module Api
@@ -23,7 +24,7 @@ module Rswag
         end
 
         context 'given a path that maps to an existing swagger file' do
-          let(:env) { env_defaults.merge('PATH_INFO' => 'v1/swagger.json') }
+          let(:response) { Rack::MockRequest.new(app).request('GET', 'v1/swagger.json') }
 
           it 'returns a 200 status' do
             expect(response.length).to eql(3)
@@ -38,7 +39,7 @@ module Rswag
         end
 
         context "given a path that doesn't map to any swagger file" do
-          let(:env) { env_defaults.merge('PATH_INFO' => 'foobar.json') }
+          let(:response) { Rack::MockRequest.new(app).request('get', 'foobar.json') }
           before do
             allow(app).to receive(:call).and_return([ '500', {}, [] ])
           end

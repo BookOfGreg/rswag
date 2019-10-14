@@ -2,7 +2,7 @@ require 'json'
 
 module Rswag
   module Api
-    class Middleware 
+    class Middleware
 
       def initialize(app, config)
         @app = app
@@ -11,6 +11,8 @@ module Rswag
 
       def call(env)
         path = env['PATH_INFO']
+        # See Rails static file server. Defends from path traversal etc.
+        # https://github.com/rails/rails/blob/6-0-stable/actionpack/lib/action_dispatch/middleware/static.rb#L30
         filename = "#{@config.resolve_swagger_root(env)}/#{path}"
 
         if env['REQUEST_METHOD'] == 'GET' && File.file?(filename)
@@ -23,7 +25,7 @@ module Rswag
             [ JSON.dump(swagger) ]
           ]
         end
-          
+
         return @app.call(env)
       end
 

@@ -4,6 +4,7 @@ module Rswag
       attr_accessor :swagger_root, :swagger_filter
 
       def resolve_swagger_root(env)
+        binding.pry
         path_params = env['action_dispatch.request.path_parameters'] || {}
         path_params[:swagger_root] || swagger_root
       end

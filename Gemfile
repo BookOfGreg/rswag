@@ -1,4 +1,6 @@
 source "https://rubygems.org"
+gem 'pry'
+gem 'sprockets', '< 4'
 
 # Allow the rails version to come from an ENV setting so Travis can test multiple versions.
 # See http://www.schneems.com/post/50991826838/testing-against-multiple-rails-versions/
